@@ -134,41 +134,6 @@ bool APRILTAG_LOCALIZATION::loadTagConfig(std::string file_name)
     return true;
 }
 
-// void APRILTAG_LOCALIZATION::tag_detections_cb(apriltag_ros::AprilTagDetectionArray msg)
-// {
-//     if(msg.detections.size() > 0)
-//     {
-//         tag_detection.detections.clear();
-//         tag_detection.header = msg.header;
-//         for(apriltag_ros::AprilTagDetection detection: msg.detections)
-//             for(std::string known_id: tag_rts._names)
-//                 if(detection.id.at(0) == known_id)
-//                     tag_detection.detections.push_back(detection);
-//     }
-//     // else
-//     //     ROS_WARN("There is no detected tags...");
-// }
-
-// bool APRILTAG_LOCALIZATION::broadcastTagTF()
-// {
-//     if(!tf_broadcaster_initialized)
-//     {
-//         ROS_ERROR("TF broadcaster not initialized...");
-//         return false;
-//     }
-//     else
-//     {
-//         ros::Time now = ros::Time::now();
-//         for(size_t broadcaster = 0; broadcaster < tf_broadcasters.size(); broadcaster++)
-//         {
-//                 tag_transforms.at(broadcaster).header.stamp = now;
-//                 tf_broadcasters.at(broadcaster).sendTransform(tag_transforms.at(broadcaster));
-//             }
-
-//         return true;
-//     }
-// }
-
 bool APRILTAG_LOCALIZATION::getTrueRT()
 {
     if(!tag_config_loaded)

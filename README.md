@@ -1,4 +1,4 @@
-# true_rt_tag
+# AprilTag Localization
 #### Localize camera frame with respect to world frame with known transformation of tag's w.r.t. world.
 It publishes <geometry_msgs::PoseStamped> topic named with exactly same with the "camera_frame_name" argument in launch file
 
@@ -23,7 +23,7 @@ sudo apt install ros-[YOUR_ROS_DISTRO]-apriltag ros-[YOUR_ROS_DISTRO]-apriltag-r
 Clone TRUE_RT_TAG package to you_ws/src to install
 ```
 cd your_ws/src
-git clone https://github.com/MinSungjae/true_rt_tag
+git clone https://github.com/MinSungjae/AprilTagLocalization
 
 cd your_ws/
 catkin_make
@@ -66,7 +66,7 @@ These are for the AprilTag detections.
 And let's configure True_RT_Tag.
 Go to the True_RT_Tag package directory and edit the configuration file.
 ```
-roscd true_rt_tag/config
+roscd aprilatag_localization/config
 gedit [FILE NAME].yaml
 ```
 And you have to define Tag's information about you in apriltag_ros/config/tags.yaml
@@ -94,7 +94,7 @@ Just make a new file with the same format and define a config that matches your 
 
 You can launch the True_RT_Tag package with
 ```
-roslaunch true_rt_tag true_rt_tag.launch
+roslaunch aprilatag_localization aprilatag_localization.launch
 ```
 
 also, you can modify the launch argument below </br>
@@ -110,6 +110,6 @@ Also, TF of RealSense's internal transformation, for example camera_mount2camera
 
 If you want to launch with your own environment tag configuration file, you can launch with
 ```
-roslaunch true_rt_tag true_rt_tag.launch tag_file_name:=[YOUR_CONFIG_FILE_NAME]
+roslaunch aprilatag_localization aprilatag_localization.launch tag_file_name:=[YOUR_CONFIG_FILE_NAME]
 ```
 (without extension (.yaml))
