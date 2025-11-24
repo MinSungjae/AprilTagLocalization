@@ -7,7 +7,7 @@ Panels:
         - /Global Options1
         - /TF1/Frames1
       Splitter Ratio: 0.581447958946228
-    Tree Height: 1809
+    Tree Height: 1852
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -57,7 +57,43 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        SIGNBOARD02:
+        W2TSIGNBOARD01:
+          Value: true
+        W2TSIGNBOARD02:
+          Value: true
+        W2TSIGNBOARD03:
+          Value: true
+        W2TSIGNBOARD04:
+          Value: true
+        W2TSIGNBOARD05:
+          Value: true
+        W2TSIGNBOARD06:
+          Value: true
+        W2TSIGNBOARD07:
+          Value: true
+        W2TSIGNBOARD08:
+          Value: true
+        W2TSIGNBOARD09:
+          Value: true
+        W2TSIGNBOARD10:
+          Value: true
+        W2TSIGNBOARD11:
+          Value: true
+        W2TSIGNBOARD12:
+          Value: true
+        W2TSIGNBOARD13:
+          Value: true
+        W2TSIGNBOARD14:
+          Value: true
+        W2TSIGNBOARD15:
+          Value: true
+        W2TSIGNBOARD16:
+          Value: true
+        base_footprint:
+          Value: true
+        base_link:
+          Value: true
+        camera_bottom_screw_frame:
           Value: true
         camera_color_frame:
           Value: true
@@ -67,9 +103,35 @@ Visualization Manager:
           Value: true
         camera_depth_optical_frame:
           Value: true
+        camera_left_ir_frame:
+          Value: true
+        camera_left_ir_optical_frame:
+          Value: true
         camera_link:
           Value: true
+        camera_right_ir_frame:
+          Value: true
+        camera_right_ir_optical_frame:
+          Value: true
+        front_sensor:
+          Value: true
+        left_sensor:
+          Value: true
+        lower_left_wheel_shaft:
+          Value: true
+        lower_right_wheel_shaft:
+          Value: true
         map:
+          Value: true
+        odom:
+          Value: true
+        rear_sensor:
+          Value: true
+        right_sensor:
+          Value: true
+        upper_left_wheel_shaft:
+          Value: true
+        upper_right_wheel_shaft:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -78,14 +140,38 @@ Visualization Manager:
       Show Names: true
       Tree:
         map:
-          camera_link:
-            camera_color_frame:
-              camera_color_optical_frame:
-                SIGNBOARD02:
-                  {}
-            camera_depth_frame:
-              camera_depth_optical_frame:
-                {}
+          W2TSIGNBOARD01:
+            {}
+          W2TSIGNBOARD02:
+            {}
+          W2TSIGNBOARD03:
+            {}
+          W2TSIGNBOARD04:
+            {}
+          W2TSIGNBOARD05:
+            {}
+          W2TSIGNBOARD06:
+            {}
+          W2TSIGNBOARD07:
+            {}
+          W2TSIGNBOARD08:
+            {}
+          W2TSIGNBOARD09:
+            {}
+          W2TSIGNBOARD10:
+            {}
+          W2TSIGNBOARD11:
+            {}
+          W2TSIGNBOARD12:
+            {}
+          W2TSIGNBOARD13:
+            {}
+          W2TSIGNBOARD14:
+            {}
+          W2TSIGNBOARD15:
+            {}
+          W2TSIGNBOARD16:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -131,33 +217,33 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 20.418184280395508
+      Distance: 5.004106044769287
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.8702852725982666
-        Y: 2.722700595855713
-        Z: 0.7508797645568848
+        X: 1.0593229532241821
+        Y: -0.8465889096260071
+        Z: 0.851430356502533
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8897969722747803
+      Pitch: 1.0247968435287476
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 2.9631710052490234
+      Yaw: 6.126356601715088
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 2130
+  Height: 2103
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000002560000076bfc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000008800fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c00610079007301000000580000076b0000012a00fffffffb0000000a0049006d00610067006501000003590000046a0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d0061006700650000000212000000160000000000000000000000010000015f0000076bfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007301000000580000076b000000f200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000f000000005efc0100000002fb0000000800540069006d0065010000000000000f000000047f00fffffffb0000000800540069006d0065010000000000000450000000000000000000000b390000076b00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000025600000779fc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000779000000c900fffffffb0000000a0049006d00610067006501000003590000046a0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d0061006700650000000212000000160000000000000000000000010000015f00000779fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003d00000779000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000ebd0000005efc0100000002fb0000000800540069006d0065010000000000000ebd000002eb00fffffffb0000000800540069006d0065010000000000000450000000000000000000000afc0000077900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -166,6 +252,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 3840
-  X: 0
-  Y: 0
+  Width: 3773
+  X: 67
+  Y: 31
