@@ -42,7 +42,6 @@ private:
     bool loadTagConfig(std::string file_name);
     bool initTFBroadcaster();
 
-    // void tag_detections_cb(apriltag_ros::AprilTagDetectionArray msg);
     void tf_static_cb(tf2_msgs::TFMessage msg);
 
     tf2_ros::Buffer tf_buffer_;
@@ -72,7 +71,6 @@ protected:
 
 public:
     APRILTAG_LOCALIZATION(ros::NodeHandle* nh, ros::Rate rate);
-
-    // bool broadcastTagTF();
+    
     bool getTrueRT();
 };

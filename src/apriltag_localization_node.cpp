@@ -14,16 +14,7 @@ int main(int argc, char** argv)
     while(ros::ok())
     {
         ros::spinOnce();
-
         tag_localization.getTrueRT();
-
-        if(counter++ >= 10)
-        {
-            // if(!tag_localization.broadcastTagTF())
-                ROS_INFO("Not initialized...!");
-            counter = 0;
-        }
-
 
         rate.sleep();
     }

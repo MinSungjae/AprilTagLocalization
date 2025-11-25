@@ -15,8 +15,6 @@ APRILTAG_LOCALIZATION::APRILTAG_LOCALIZATION(ros::NodeHandle* nh, ros::Rate rate
     apriltag_localization_pub = _nh->advertise<geometry_msgs::PoseStamped>("apriltag_localization_pose", 1);
     global_tag_pose_pub = _nh->advertise<geometry_msgs::PoseStamped>(camera_frame_name, 1);
 
-    // tag_detections_sub = _nh->subscribe("/tag_detections", 1, &APRILTAG_LOCALIZATION::tag_detections_cb, this);
-
     // World's front left up coordinate system to tag's right up depth coordinates
     tf2::Quaternion x90(DEG2RAD(0.0), DEG2RAD(90.0), DEG2RAD(0.0));
     tf2::Quaternion y_90(DEG2RAD(-90.0), DEG2RAD(00.0), DEG2RAD(0.0));
@@ -56,7 +54,7 @@ bool APRILTAG_LOCALIZATION::initTFBroadcaster()
     for (size_t i = 0; i < tag_rts._transforms.size(); i++)
     {
         geometry_msgs::TransformStamped msg;
-        msg.header.stamp    = ros::Time::now();   // static transform이지만 timestamp는 넣음
+        msg.header.stamp    = ros::Time::now();
         msg.header.frame_id = world_frame_name;
         msg.child_frame_id  = "W2T" + tag_rts._names.at(i);
 
@@ -65,7 +63,6 @@ bool APRILTAG_LOCALIZATION::initTFBroadcaster()
         static_transforms.push_back(msg);
     }
 
-    // static broadcaster는 여러 개 transform을 한 번에 송출 가능
     static_tf_broadcaster_.sendTransform(static_transforms);
 
     ROS_INFO_STREAM("Static TF for " 
@@ -158,14 +155,23 @@ bool APRILTAG_LOCALIZATION::getTrueRT()
     for (size_t i = 0; i < tag_rts._names.size(); ++i)
     {
         const std::string& tag_name  = tag_rts._names[i];
-        const std::string  tag_frame = tag_name; // 필요하면 prefix 붙이기: "tag_bundle_" + tag_name
+        const std::string  tag_frame = tag_name;
 
         try
         {
-            geometry_msgs::TransformStamped optical2tag_geo =
-                tf_buffer_.lookupTransform(image_frame_name,
-                                            tag_frame,
-                                            ros::Time(0)); // lookup timeout
+            // geometry_msgs::TransformStamped optical2tag_geo =
+            //     tf_buffer_.lookupTransform(image_frame_name,
+            //                                 tag_frame,
+            //                                 ros::Time(0)); // lookup timeout
+
+            geometry_msgs::TransformStamped optical2tag_geo = tf_buffer_.lookupTransform(image_frame_name, tag_frame, ros::Time(0));
+
+            ros::Time now = ros::Time::now();
+            if ((now - optical2tag_geo.header.stamp).toSec() > 0.1)
+            {
+                ROS_WARN("Tag %s transform is old. Skip.", tag_frame.c_str());
+                continue;
+            }
 
             const double x = optical2tag_geo.transform.translation.x;
             const double y = optical2tag_geo.transform.translation.y;
@@ -182,13 +188,12 @@ bool APRILTAG_LOCALIZATION::getTrueRT()
         }
         catch (tf2::TransformException& ex)
         {
-            // 이 번들은 현재 안 보이는 것으로 처리
             // ROS_DEBUG("%s", ex.what());
             continue;
         }
     }
 
-    // 하나도 안 보이면 종료
+    // If no tag detected
     if (dist_to_tag.empty())
     {
         ROS_INFO("No tag bundle frames visible in TF. Skip localization.");
@@ -200,7 +205,7 @@ bool APRILTAG_LOCALIZATION::getTrueRT()
     double min_dist = *min_it;
 
     const std::string& selected_name = name_list[min_idx];
-if (min_dist > threshold_dist)
+    if (min_dist > threshold_dist)
     {
         ROS_INFO_STREAM("Closest tag bundle '" << selected_name
                         << "' is too far. Dist: " << min_dist
@@ -214,7 +219,7 @@ if (min_dist > threshold_dist)
                         << "' selected at dist " << min_dist);
     }
 
-    // 선택된 name에 해당하는 config index 찾기
+    // Find config index
     auto it = std::find(tag_rts._names.begin(), tag_rts._names.end(), selected_name);
     if (it == tag_rts._names.end())
     {
@@ -224,35 +229,32 @@ if (min_dist > threshold_dist)
     size_t config_idx = std::distance(tag_rts._names.begin(), it);
     ROS_INFO_STREAM("Tag bundle config found at index " << config_idx);
 
-    // world -> tag (bundle 기준) 변환 (config에서 읽은 것)
+    // map -> tag transformation
     tf2::Transform global2tag_tf = tag_rts._transforms.at(config_idx);
 
-    // true_rt_tag_pub: world 기준 태그 번들 pose publish
     geometry_msgs::PoseStamped global2tag_geo;
     tf2::toMsg(global2tag_tf, global2tag_geo.pose);
     global2tag_geo.header.frame_id = world_frame_name;
     global2tag_geo.header.stamp    = ros::Time::now();
     apriltag_localization_pub.publish(global2tag_geo);
 
-    // optical -> tag (실측, TF에서 얻은 것)
+    // optical -> tag
     tf2::Transform optical2tag_tf = optical2tag_list[min_idx];
 
-    // cam mount -> optical (생성자에서 cam2optical_geo로 얻어둔 것)
+    // cam mount -> optical transformation
     tf2::fromMsg(cam2optical_geo.transform, cam2optical_tf);
 
-    // world -> camera mount 변환 계산
-    // global2_cam_tf = global2tag_tf * optical2tag^-1 * cam2optical^-1
-    tf2::Transform global2_cam_tf =
-        global2tag_tf * optical2tag_tf.inverse() * cam2optical_tf.inverse();
+    // map -> camera mount transformation
+    tf2::Transform global2_cam_tf = global2tag_tf * optical2tag_tf.inverse() * cam2optical_tf.inverse();
 
-    // world 기준 camera pose publish
+    // map -> camera pose publish
     geometry_msgs::PoseStamped global2cam_pose;
     tf2::toMsg(global2_cam_tf, global2cam_pose.pose);
     global2cam_pose.header.stamp    = ros::Time::now();
     global2cam_pose.header.frame_id = world_frame_name;
     global_tag_pose_pub.publish(global2cam_pose);
 
-    // 필요시 world->camera TF broadcast
+    // map -> camera TF broadcast
     if (broadcast_world2cam_tf)
     {
         geometry_msgs::TransformStamped global2_cam_geo;
