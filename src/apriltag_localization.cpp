@@ -164,8 +164,9 @@ bool APRILTAG_LOCALIZATION::getTrueRT()
             //                                 tag_frame,
             //                                 ros::Time(0)); // lookup timeout
 
-            geometry_msgs::TransformStamped optical2tag_geo = tf_buffer_.lookupTransform(image_frame_name, tag_frame, ros::Time(0));
-
+            geometry_msgs::TransformStamped optical2tag_geo =
+                tf_buffer_.lookupTransform(image_frame_name, tag_frame, ros::Time(0));
+            
             ros::Time now = ros::Time::now();
             if ((now - optical2tag_geo.header.stamp).toSec() > 0.1)
             {
